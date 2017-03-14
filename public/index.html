@@ -1,0 +1,45 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src = "socket.io/socket.io.js"></script>
+</head>
+<body>
+<p>WElcome</p>
+<input id="msg"/><button id="msg-button">send</button>
+<p id="txt"></p>
+<script>
+var socket = io();
+socket.on('connect', function(){
+  console.log('connected to server');
+});
+
+socket.on('disconnect',function(){
+  console.log('disconnected from server');
+});
+
+socket.on('newmessage1',function(message){
+  //console.log(message);
+  $(document).ready(function(){
+  $("#txt").append(message.text+"</br>");
+  console.log(message);
+});
+});
+navigator.geolocation.getCurrentPosition(function(position){
+  console.log(position);
+});
+  /*socket.emit('newmessage', {
+    from:'anirudh',
+    text:'hey anirudh'
+  });*/
+$(document).ready(function(){
+$("#msg-button").on('click', function(){
+var msg = $("#msg").val();
+socket.emit('newmessage', {
+  //from:'anirudh',
+  text: msg
+});
+});
+});
+</script>
+</body>
+</html>
